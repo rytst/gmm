@@ -1,4 +1,4 @@
 # Gaussian Mixture Model
 
 ### GMM Sampling
-![GMM Sampling](gmm_sampling/gmm_sampling/gmm_sampling.png)
+![GMM Sampling](gmm_sampling/gmm_sampling.png)
