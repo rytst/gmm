@@ -1,0 +1,66 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+mus = np.array([[2.0, 54.50],
+                [4.3, 80.0]])
+
+covs = np.array([[[0.07, 0.44],
+                  [0.44, 33.7]],
+
+                 [[0.17, 0.94],
+                  [0.94, 36.00]]])
+
+
+phis = np.array([0.35, 0.65])
+
+
+def multivariate_normal(x, mu, cov):
+    det = np.linalg.det(cov)
+    inv = np.linalg.inv(cov)
+    D = len(x)
+    z = 1 / np.sqrt((2 * np.pi)**D * det)
+    y = z * np.exp((x - mu).T @ inv @ (x - mu) * -2.0)
+    return y
+
+
+
+def gmm(x, phis, mus, covs):
+    y = 0
+    for k in range(len(phis)):
+        y += phis[k] * multivariate_normal(x, mus[k], covs[k])
+
+    return y
+
+
+
+xs = np.arange(1, 6, 0.1)
+ys = np.arange(40, 100, 0.1)
+
+
+
+X, Y = np.meshgrid(xs, ys)
+
+Z = np.zeros_like(X)
+
+
+for i in range(Z.shape[0]):
+    for j in range(Z.shape[1]):
+        x = np.array([X[i, j], Y[i, j]])
+        Z[i, j] = gmm(x, phis, mus, covs)
+
+fig = plt.figure(figsize=(5, 10))
+
+ax1 = fig.add_subplot(2, 1, 1, projection='3d')
+ax1.set_xlabel('x')
+ax1.set_ylabel('y')
+ax1.set_zlabel('z')
+ax1.plot_surface(X, Y, Z, cmap='viridis')
+
+ax2 = fig.add_subplot(2, 1, 2)
+ax2.set_xlabel('x')
+ax2.set_ylabel('y')
+ax2.contour(X, Y, Z)
+
+
+plt.savefig('gmm.png')
