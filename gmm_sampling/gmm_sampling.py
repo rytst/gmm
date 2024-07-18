@@ -40,4 +40,5 @@ for i in range(N):
 plt.scatter(gen_data[:, 0], gen_data[:, 1], alpha=0.7)
 plt.xlabel('x')
 plt.ylabel('y')
+plt.title('N = 500')
 plt.savefig('gmm_sampling.png')
